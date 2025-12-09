@@ -1,63 +1,62 @@
-import {  createContext, useEffect, useState } from "react";
-import { getdata } from "./Api";
+import React, { useContext } from "react";
+import { DataContext } from "../DataContext";
 
+export default function Dashboard() {
+  const { form } = useContext(DataContext);
 
-export const datacontext = createContext();
- 
-export const Data= ({children}) =>{
-    const[form , setForm] =useState([]);
+  return (
+    <div className="p-6">
+      <h1 className="font-bold text-3xl mb-6">Dashboard</h1>
 
-    const loadData =async () =>{
-        const res = await getdata();
-        setForm(res || []);
+      <div className="flex flex-wrap gap-6">
+        {form.length === 0 && <p>No submissions found.</p>}
 
-    };
+        {form.map((item) => (
+          <div key={item.id} className="bg-[#FFF1B8] p-5 rounded-xl w-[300px] shadow">
 
-    useEffect(() =>{
-        loadData();
-    }, []);
+            <p className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold mb-1">
+              Full Name
+            </p>
+            <p className="mb-3">{item.fullname}</p>
+
+            <p className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold mb-1">
+              Phone
+            </p>
+            <p className="mb-3">{item.phone}</p>
+
+            <p className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold mb-1">
+              Email
+            </p>
+            <p className="mb-3">{item.email}</p>
+
+            <p className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold mb-1">
+              Additional Info
+            </p>
+            <p className="mb-3">{item.additionalInfo}</p>
+
+            <p className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold mb-1">
+              Roles
+            </p>
+            <p className="mb-3">{item.roles}</p>
+
+            <p className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold mb-1">
+              Budget
+            </p>
+            <p className="mb-3">{item.budget}</p>
+
+            <p className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold mb-1">
+              Talents
+            </p>
+            <p className="mb-3">{item.talents}</p>
+
+            <p className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold mb-1">
+              Persona
+            </p>
+            <p>{item.persona}</p>
+
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
-
-return(
-    <Data.Provider value={}>
-        {chi}
-    </Data.Provider>
-)
-import api from "./URL"
-
-
-export const getdata = async() =>{
-    try {
-    const res= await api.get("/");
-    return res.data;
-    } catch (error) {
-        alert("failed to get data")
-    }
-};
-
-export const Formdata =async (data) =>{
-    try {
-        const res = await api.post("/",data);
-        return res.data;
-    } catch (error) {
-        alert("failed to submit data")
-    }
-};
-
-export const editdata = async(id,data) =>{
-    try {
-        const res =await api.patch(`/${id}`,data);
-        return res.data;
-    } catch (error) {
-        alert("failed to update data");
-    }
-};
-
-export const deletedata = async (id) =>{
-    try {
-        const res = await api.delete(`/${id}`);
-        return res.data;
-    } catch (error) {
-        alert("failed to delete data");
-    }
-};
