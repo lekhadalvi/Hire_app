@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Formdata } from "../Api";
+import { DataContext } from "./Context";
 
 export default function FormPage() {
+  const { addForm } = useContext(DataContext);
+
   const {
     register,
     handleSubmit,
@@ -12,13 +14,12 @@ export default function FormPage() {
 
   const onSubmit = async (data) => {
     try {
-      await Formdata(data);
-      alert("Form submitted!");
-      return reset();
+      await addForm(data);   
+      reset();
     } catch (error) {
       alert("Something went wrong!");
-            return reset();
-    } 
+      reset();
+    }
   };
 
   return (
@@ -47,6 +48,7 @@ export default function FormPage() {
               </p>
             )}
           </div>
+
           <div>
             <input
               {...register("roles", { required: "Role is required" })}
@@ -98,6 +100,7 @@ export default function FormPage() {
               </p>
             )}
           </div>
+
           <div>
             <input
               {...register("talents", { required: "Number of talents required" })}
@@ -110,6 +113,7 @@ export default function FormPage() {
               </p>
             )}
           </div>
+
           <div>
             <input
               {...register("additionalInfo")}
@@ -117,6 +121,7 @@ export default function FormPage() {
               className="p-3 rounded-lg w-full border outline-none"
             />
           </div>
+
           <div>
             <input
               {...register("persona", { required: "Persona is required" })}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useData } from "../context/DataContext";
+import { useData } from "./Context";
 
 export default function EditDashboard() {
   const { id } = useParams();
